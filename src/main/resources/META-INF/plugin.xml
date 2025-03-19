@@ -5,6 +5,7 @@
     <vendor>gvergieva</vendor>
 
     <depends>com.intellij.modules.platform</depends>
+    <depends>Git4Idea</depends>
 
     <resource-bundle>messages.MyBundle</resource-bundle>
 
@@ -15,4 +16,10 @@
     <applicationListeners>
         <listener class="com.github.gvergieva.renamecommit.listeners.MyApplicationActivationListener" topic="com.intellij.openapi.application.ApplicationActivationListener"/>
     </applicationListeners>
+    <actions>
+        <action class="com.github.gvergieva.renamecommit.actions.OpenTabAction" id="com.github.gvergieva.renamecommit.actions.OpenTabAction"
+                text="Rename Current Commit">
+            <add-to-group group-id="Git.MainMenu" anchor="first"/>
+        </action>
+    </actions>
 </idea-plugin>

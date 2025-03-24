@@ -10,7 +10,6 @@ plugins {
     alias(libs.plugins.changelog) // Gradle Changelog Plugin
     alias(libs.plugins.qodana) // Gradle Qodana Plugin
     alias(libs.plugins.kover) // Gradle Kover Plugin
-    //id("org.jetbrains.intellij") version "1.16.0"
 }
 
 group = providers.gradleProperty("pluginGroup").get()
@@ -38,29 +37,29 @@ repositories {
         defaultRepositories()
     }
 }
-//intellij {
-//    version.set("LATEST-EAP-SNAPSHOT") // Or specify a version like "2023.3"
-//    type.set("IC") // "IC" = IntelliJ Community, "IU" = Ultimate
-//    plugins.set(listOf("git4idea"))
-//}
 
 // Dependencies are managed with Gradle version catalog - read more: https://docs.gradle.org/current/userguide/platforms.html#sub:version-catalog
 dependencies {
     testImplementation(libs.junit)
+    testImplementation("org.junit.jupiter:junit-jupiter:5.8.2")
+    testImplementation("org.mockito:mockito-core:3.12.4")
+    testImplementation("org.assertj:assertj-core:3.23.1")
+    testImplementation("org.assertj:assertj-swing-junit:3.9.2")
+    testImplementation("junit:junit:4.12")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.1")
+    testImplementation("org.awaitility:awaitility:4.2.0")
 
     // IntelliJ Platform Gradle Plugin Dependencies Extension - read more: https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-dependencies-extension.html
     intellijPlatform {
-        //bundledPlugin("Git4Idea")
         plugin("Git4Idea:201.8538.4")
+
         create(providers.gradleProperty("platformType"), providers.gradleProperty("platformVersion"))
 
         // Plugin Dependencies. Uses `platformBundledPlugins` property from the gradle.properties file for bundled IntelliJ Platform plugins.
-       // bundledPlugins(providers.gradleProperty("platformBundledPlugins").map { it.split(',') })
         bundledPlugins(providers.gradleProperty("platformBundledPlugins").map { it.split(',') })
 
         // Plugin Dependencies. Uses `platformPlugins` property from the gradle.properties file for plugin from JetBrains Marketplace.
        plugins(providers.gradleProperty("platformPlugins").map { it.split(',') })
-       // plugins(providers.gradleProperty("platformPlugins").map { it.split(',') + "git4idea" })
 
         instrumentationTools()
         pluginVerifier()

@@ -5,9 +5,8 @@ import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.ui.popup.JBPopup
 import com.intellij.openapi.ui.popup.JBPopupFactory
-import com.intellij.openapi.wm.IdeFocusManager
 
-class OpenTabAction: AnAction() {
+class OpenPopUpAction: AnAction() {
     /**
      * This method is called when the entry point for the plugin is invoked.
      * It creates the pop-up

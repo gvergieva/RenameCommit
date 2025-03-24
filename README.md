@@ -1,20 +1,25 @@
 # RenameCommit
 
-![Build](https://github.com/gvergieva/RenameCommit/workflows/Build/badge.svg)
-[![Version](https://img.shields.io/jetbrains/plugin/v/MARKETPLACE_ID.svg)](https://plugins.jetbrains.com/plugin/MARKETPLACE_ID)
-[![Downloads](https://img.shields.io/jetbrains/plugin/d/MARKETPLACE_ID.svg)](https://plugins.jetbrains.com/plugin/MARKETPLACE_ID)
 
-## Template ToDo list
-- [x] Create a new [IntelliJ Platform Plugin Template][template] project.
-- [ ] Get familiar with the [template documentation][template].
-- [ ] Adjust the [pluginGroup](./gradle.properties) and [pluginName](./gradle.properties), as well as the [id](./src/main/resources/META-INF/plugin.xml) and [sources package](./src/main/kotlin).
-- [ ] Adjust the plugin description in `README` (see [Tips][docs:plugin-description])
-- [ ] Review the [Legal Agreements](https://plugins.jetbrains.com/docs/marketplace/legal-agreements.html?from=IJPluginTemplate).
-- [ ] [Publish a plugin manually](https://plugins.jetbrains.com/docs/intellij/publishing-plugin.html?from=IJPluginTemplate) for the first time.
-- [ ] Set the `MARKETPLACE_ID` in the above README badges. You can obtain it once the plugin is published to JetBrains Marketplace.
-- [ ] Set the [Plugin Signing](https://plugins.jetbrains.com/docs/intellij/plugin-signing.html?from=IJPluginTemplate) related [secrets](https://github.com/JetBrains/intellij-platform-plugin-template#environment-variables).
-- [ ] Set the [Deployment Token](https://plugins.jetbrains.com/docs/marketplace/plugin-upload.html?from=IJPluginTemplate).
-- [ ] Click the <kbd>Watch</kbd> button on the top of the [IntelliJ Platform Plugin Template][template] to be notified about releases containing new features and fixes.
+## Implementation Description
+### Usage
+After installing the plugin, the entry point is in the Git Menu, and 
+it is the first option in the list "Rename Current Commit". Clicking it opens 
+a pop-up where the user can enter the name they want to give to the HEAD commit.
+Clicking 'Rename' renames the commit and closes the pop-up. Clicking Cancel just closes the 
+pop-up without renaming. In order to check that the commit was correctly renames,
+use the Terminal and type 'git log'. Since the function I am using for the rebasing does
+not update the Git Log window the change will not be seen there if you do not click the refresh in the Git Log.
+
+### Testing
+I had issues with importing the Git4Idea library in the build.gradle.kts and therefore 
+I cannot run my tests. I did not have time to fix that problem, so the MyPluginTest is
+commented out.
+
+### Implementation
+I am using AnAction to open the plugin. The action 'OpenPopUpAction' is registered in the 
+plugin.xml. MyPopUp contains the frontend logic for the pop-up display. CurrentCommitUtils 
+connects to the Git4Idea and call the methods that execute the command for renaming the HEAD commit.
 
 <!-- Plugin description -->
 This Fancy IntelliJ Platform Plugin is going to be your implementation of the brilliant ideas that you have.

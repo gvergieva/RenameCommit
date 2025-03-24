@@ -12,7 +12,7 @@ import java.awt.Dimension
 import javax.swing.*
 
 class MyPopup(private val project: Project, private val onCancel: () -> Unit) : JBPanel<JBPanel<*>>()  {
-    val utils = CurrentCommitUtils(project)
+    var utils = CurrentCommitUtils(project)
     val textField = JBTextField(20)
     val renameButton = JButton("Rename")
     val cancelButton = JButton("Cancel")
@@ -26,26 +26,12 @@ class MyPopup(private val project: Project, private val onCancel: () -> Unit) : 
         panel.add(JLabel("Rename your current commit:"))
         panel.add(textField)
 
-
         // Create the button panel
         val buttonPanel = JPanel()
         buttonPanel.layout = BoxLayout(buttonPanel, BoxLayout.X_AXIS)
 
-
-        // Set cancel button size and functionality
-        cancelButton.preferredSize = Dimension(100, 30)
-        cancelButton.addActionListener { onCancel() }
-
-        // Set rename button size adn functionality
-        renameButton.preferredSize = Dimension(100, 30)
-        renameButton.addActionListener{
-            //executes the actual rewording in a coroutine
-            CoroutineScope(Dispatchers.IO).launch {
-                utils.rewordCurrentCommit(textField.text)
-            }
-            // Closes the pop-up after the reword
-            onCancel()
-        }
+        setFunctionalityForCancelButton()
+        setFunctionalityForRenameButton()
 
         // Add buttons to button panel
         buttonPanel.add(renameButton)
@@ -58,5 +44,31 @@ class MyPopup(private val project: Project, private val onCancel: () -> Unit) : 
 
 
     }
+
+    /**
+     * Sets cancel button size and functionality
+     */
+    fun setFunctionalityForCancelButton(){
+        cancelButton.preferredSize = Dimension(100, 30)
+        cancelButton.addActionListener { onCancel() }
+    }
+
+    /**
+     * Sets rename button size and functionality
+     * Executes the actual rewording in a coroutine
+     * Closes the pop-up after the reword
+     */
+    fun setFunctionalityForRenameButton() {
+        renameButton.preferredSize = Dimension(100, 30)
+
+        renameButton.addActionListener{
+            CoroutineScope(Dispatchers.IO).launch {
+                utils.rewordCurrentCommit(textField.text)
+            }
+
+            onCancel()
+        }
+    }
+
 
 }

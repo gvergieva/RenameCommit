@@ -7,19 +7,11 @@
     <depends>com.intellij.modules.platform</depends>
     <depends>Git4Idea</depends>
 
-    <resource-bundle>messages.MyBundle</resource-bundle>
-
-    <extensions defaultExtensionNs="com.intellij">
-        <toolWindow factoryClass="com.github.gvergieva.renamecommit.toolWindow.MyToolWindowFactory" id="MyToolWindow"/>
-    </extensions>
-
-    <applicationListeners>
-        <listener class="com.github.gvergieva.renamecommit.listeners.MyApplicationActivationListener" topic="com.intellij.openapi.application.ApplicationActivationListener"/>
-    </applicationListeners>
     <actions>
-        <action class="com.github.gvergieva.renamecommit.actions.OpenTabAction" id="com.github.gvergieva.renamecommit.actions.OpenTabAction"
+        <action class="com.github.gvergieva.renamecommit.actions.OpenPopUpAction" id="com.github.gvergieva.renamecommit.actions.OpenPopUpAction"
                 text="Rename Current Commit">
             <add-to-group group-id="Git.MainMenu" anchor="first"/>
         </action>
+
     </actions>
 </idea-plugin>

@@ -1,39 +1,47 @@
 //package com.github.gvergieva.renamecommit
 //
-//import com.intellij.ide.highlighter.XmlFileType
-//import com.intellij.openapi.components.service
-//import com.intellij.psi.xml.XmlFile
-//import com.intellij.testFramework.TestDataPath
-//import com.intellij.testFramework.fixtures.BasePlatformTestCase
-//import com.intellij.util.PsiErrorElementUtil
-//import com.github.gvergieva.renamecommit.services.MyProjectService
 //
-//@TestDataPath("\$CONTENT_ROOT/src/test/testData")
+//import com.github.gvergieva.renamecommit.UI.MyPopup
+//import com.github.gvergieva.renamecommit.utils.CurrentCommitUtils
+//import com.intellij.openapi.project.Project
+//import com.intellij.testFramework.fixtures.BasePlatformTestCase
+//import org.awaitility.Awaitility
+//import org.mockito.Mockito.*
+//import java.util.concurrent.TimeUnit
+//
 //class MyPluginTest : BasePlatformTestCase() {
 //
-//    fun testXMLFile() {
-//        val psiFile = myFixture.configureByText(XmlFileType.INSTANCE, "<foo>bar</foo>")
-//        val xmlFile = assertInstanceOf(psiFile, XmlFile::class.java)
+//    private lateinit var project: Project
+//    private lateinit var utils: CurrentCommitUtils
+//    private lateinit var popup: MyPopup
+//    private lateinit var onCancel: () -> Unit
 //
-//        assertFalse(PsiErrorElementUtil.hasErrors(project, xmlFile.virtualFile))
 //
-//        assertNotNull(xmlFile.rootTag)
-//
-//        xmlFile.rootTag?.let {
-//            assertEquals("foo", it.name)
-//            assertEquals("bar", it.value.text)
-//        }
+//    override fun setUp() {
+//        super.setUp()
+//        project = mock(Project::class.java)
+//        utils = mock(CurrentCommitUtils::class.java)
+//        onCancel = mock(Runnable::class.java) as () -> Unit
+//        popup = MyPopup(project, onCancel)
+//        popup.utils = utils
 //    }
 //
-//    fun testRename() {
-//        myFixture.testRename("foo.xml", "foo_after.xml", "a2")
+//    fun testCancelButton() {
+//        assertTrue(true)
+//        popup.cancelButton.doClick()
+//        verify(onCancel, times(1)).invoke()
 //    }
 //
-//    fun testProjectService() {
-//        val projectService = project.service<MyProjectService>()
 //
-//        assertNotSame(projectService.getRandomNumber(), projectService.getRandomNumber())
+//    fun testRenameButton() {
+//        val commitMessage = "New commit message"
+//        popup.textField.text = commitMessage
+//        popup.renameButton.doClick()
+//        Awaitility.await()
+//                .pollInSameThread()
+//                .atMost(10000, TimeUnit.MILLISECONDS)
+//                .pollDelay(50, TimeUnit.MILLISECONDS)
+//        verify(utils, times(1)).rewordCurrentCommit(commitMessage)
+//        verify(onCancel, times(1)).invoke()
 //    }
-//
-//    override fun getTestDataPath() = "src/test/testData/rename"
 //}
